@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <script src="../js/jquery-3.4.1.js"></script>
+    <link href="../js/bootstrap.bundle.min.js" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            min-width: 500px;
+            /* your desired width */
+            max-width: 100%;
+            min-height: 50px;
+            max-height: 100%;
+            position: relative;
+        }
+    </style>
+
+    <title>Setting</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row g-3" style="margin: 5px;">
+            <div class="col-6">
+              <input type="text" class="form-control entry" placeholder="Site Entry" aria-label="Site Entry">
+            </div>
+            <div class="col-4">
+              <input type="number" class="form-control depth" placeholder="Max Depth" min="1" max="3" aria-label="Depth">
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-primary add">Add</button>
+            </div>
+        </div>
+        <div style="margin: 10px;">
+            <ul class="list-group entry-list">
+                <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
+                A list item
+                <span class="badge">
+                    <span class="badge bg-primary rounded-pill">14</span>
+                    <span class="badge bg-warning rounded-pill">10</span>
+                </span>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+
+</html>
