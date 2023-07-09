@@ -1,5 +1,4 @@
 from flask import Flask,request,jsonify
-from page_clean import clean_page
 from web_segmentation import WebSegmentation
 
 app = Flask(__name__)
