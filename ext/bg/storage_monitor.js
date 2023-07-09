@@ -13,7 +13,11 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
                         'entries': current_entries
                     }
                 }, function(response){
-                    console.log('entries updated: response=', response)
+                    if (chrome.runtime.lastError){
+                        console.log('entries updated: popup close')
+                    }else{
+                        console.log('entries updated: response=', response)
+                    }
                 });
             }
         })

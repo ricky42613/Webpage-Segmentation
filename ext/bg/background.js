@@ -5,6 +5,9 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.storage.local.set({'entry': {}}).then(() => {
         console.log("initialize local storage: entry=", {});
     });
+    chrome.storage.local.set({'busy': false}).then(() => {
+        console.log("initialize local storage: busy=", false);
+    });
 });   
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
