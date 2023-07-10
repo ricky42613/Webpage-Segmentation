@@ -66,14 +66,14 @@ class WebSegmentation:
         for item in block_cpy.select(f".{self.ignore_class}"):
             item.decompose()
         all_element = block_cpy.find_all()[2:]
-        text_cnt = len(block_cpy.text.strip())
+        text_cnt = len(re.sub('[\s\n]', '', block_cpy.text))
         link_text_cnt = 0
         max_non_link_text_cnt = 0
         i = 0
         while i < len(all_element):
             skip = 1
             if all_element[i].name == "a":
-                link_text_cnt += len(all_element[i].text.strip())
+                link_text_cnt += len(re.sub('[\s\n]', '', all_element[i].text))
                 if len(all_element[i].find_all()) == 0:
                     skip = 1
                 else:
@@ -81,10 +81,9 @@ class WebSegmentation:
             else:
                 link_len_in_node = 0
                 for sub_item in all_element[i].find_all("a"):
-                    link_len_in_node += len(sub_item.text.strip())
-                if len(all_element[i].text.strip()) - link_len_in_node > max_non_link_text_cnt:
-                    max_non_link_text_cnt = len(
-                        all_element[i].text.strip()) - link_len_in_node
+                    link_len_in_node += len(re.sub('[\s\n]', '', sub_item.text))
+                if len(re.sub('[\s\n]', '', all_element[i].text)) - link_len_in_node > max_non_link_text_cnt:
+                    max_non_link_text_cnt = len(re.sub('[\s\n]', '', all_element[i].text)) - link_len_in_node
             i += skip
         pl = link_text_cnt/text_cnt 
         pnl = 1-pl
@@ -96,21 +95,9 @@ class WebSegmentation:
             struct_feature = 1
         else:
             struct_feature = max_non_link_text_cnt/(text_cnt-link_text_cnt)
-        measure_val = (entropy + struct_feature)/2
+        measure_val = 0.9 * entropy + 0.1 * struct_feature
+        print(re.sub('[\s\n]', '', block_cpy.text), entropy, struct_feature, measure_val)
         return measure_val
-
-
-    # def get_elem_path(self, elem):
-    #     path = []
-    #     tmp = elem
-    #     while(tmp.name != 'body'):
-    #         path.append(tmp.name)
-    #         tmp = tmp.parent
-    #     path.append('body')
-    #     path.append(elem.text)
-    #     path.reverse()
-    #     return path
-
 
     def _xpath_soup(self, element):
         """
@@ -152,7 +139,7 @@ class WebSegmentation:
         return block
 
 
-    def _parent_is_seg(block, seg_blocks):
+    def _parent_is_seg(self, block, seg_blocks):
         while block.name != 'body':
             if block.parent in seg_blocks:
                 return True
@@ -299,7 +286,7 @@ class WebSegmentation:
                 i += self._is_only_text(all_element[i])
             else:
                 measure_val = self._get_measure_val(all_element[i])
-                if measure_val < 0.48:
+                if measure_val < 1:
                     ret.append(all_element[i])
                     i += len(all_element[i].find_all())+1
                 else:

@@ -81,5 +81,27 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             }
         });
     }
+    else if ("segment_body" === request.type) {
+        let post_data = {
+            "page": request.msg.body,
+            "url": request.msg.url
+        }
+        fetch('http://127.0.0.1:5000/segmentation', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            body: JSON.stringify(post_data)
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log('segment_body: server response', json)
+            sendResponse({'status': 200, msg: json})
+        }).catch(error=>{
+            console.log('segment_body: error when segmenting=', error)
+            sendResponse({'status': 500, msg: error})
+        })
+    }
     return true
 })

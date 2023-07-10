@@ -1,6 +1,6 @@
 from flask import Flask,request,jsonify
 from web_segmentation import WebSegmentation
-
+import json
 app = Flask(__name__)
 WS = WebSegmentation()
 
@@ -12,7 +12,8 @@ def home():
 @app.route("/segmentation", methods=['POST'])
 def segment():
     if request.method == "POST":
-        page = request.form.get('page')
+        data = json.loads(request.data.decode())
+        page = data['page']
         cp = WS.clean_page(page)
         blocks = WS.segmentation(cp)
         return jsonify(
