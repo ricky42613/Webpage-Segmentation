@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 if (current_entries[url_info.hostname] == undefined){
                     current_entries[url_info.hostname] = {
                         'max_depth': data.depth,
-                        'wait_for_parse': [{'depth': 0, 'url': data.entry}],
+                        'wait_for_parse': [{'depth': 0, 'url': url_normalize(data.entry)}],
                         'visited': []
                     }
                     chrome.storage.local.set({'entry': current_entries}).then(() => {

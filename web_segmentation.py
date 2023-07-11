@@ -286,7 +286,7 @@ class WebSegmentation:
                 i += self._is_only_text(all_element[i])
             else:
                 measure_val = self._get_measure_val(all_element[i])
-                if measure_val < 1:
+                if measure_val < 0.6:
                     ret.append(all_element[i])
                     i += len(all_element[i].find_all())+1
                 else:

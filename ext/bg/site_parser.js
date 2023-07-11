@@ -86,7 +86,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             "page": request.msg.body,
             "url": request.msg.url
         }
-        fetch('http://127.0.0.1:5000/segmentation', {
+        fetch(`${HOST}${API_NAME[request.type]}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
